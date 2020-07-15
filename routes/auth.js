@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 module.exports = (app) => {
     // SIGN UP FORM
 
+    app.get("/login", (req, res) => {
+        res.render('login');
+    });
     // SIGN UP POST
     app.post("/sign-up", (req, res) => {
         // Create User and JWT
@@ -12,14 +15,14 @@ module.exports = (app) => {
         user.save().then((user) => {
             var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
             res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
-            res.redirect('/');
+            res.redirect('/home');
     });
   });
 
     // LOGOUT
     app.get('/logout', (req, res) => {
         res.clearCookie('nToken');
-        res.redirect('/');
+        res.redirect('/home');
     });
 
      // LOGIN
@@ -44,10 +47,9 @@ module.exports = (app) => {
                 expiresIn: "60 days"
             });
 
-            console.log(token)
             // Set a cookie and redirect to root
             res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
-            res.redirect("/");
+            res.redirect("/home");
             });
         })
         .catch(err => {
