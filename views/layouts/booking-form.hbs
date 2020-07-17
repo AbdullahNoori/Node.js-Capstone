@@ -1,0 +1,57 @@
+<div class="bg-dark m-0 ">
+    <div class="container">
+        <div class="row justify-content-center p-5">
+                    
+            <!-- Material form login -->
+            <div class="card">
+
+            <h5 class="card-header info-color white-text text-center py-4">
+                <strong>Book {{offer}}</strong>
+            </h5>
+
+            <!--Card content-->
+            <div class="card-body px-lg-5 pt-0">
+                <div class="row m-5">
+                    <img src="https://cdn4.buysellads.net/uu/1/65221/1591052948-DATADOG-Product.jpg" class="card-img-top" alt="...">
+                </div>
+                <!-- Form -->
+                <form class="text-center" style="color: #757575;" action="/booking/new" method="POST">
+                
+                    <!-- Name -->
+                    <div class="md-form">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="md-form">
+                        <label for="email">Your E-mail</label>
+                        <input type="email" name="email" id="email" class="form-control">
+                
+                    </div>
+                    
+                    <div class="md-form">
+                        <label for="offer">Offer</label>
+                        <input type="text" name="offer" id="offer" class="form-control">
+                
+                    </div>
+
+                    <div class="md-form">
+                        <label for="message">Message</label>
+                        <textarea type="text" name="message" id="message" class="form-control"></textarea>
+                    </div>
+
+                    <!-- Sign in button -->
+                    <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">BOOK</button>
+
+                </form>
+                <!-- Form -->
+
+            </div>
+
+            </div>
+            <!-- Material form login -->
+        </div>
+    </div>
+</div>
