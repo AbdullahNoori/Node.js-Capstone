@@ -1,49 +1,44 @@
 var hbs = require('express-handlebars');
+var Handlebars = require('handlebars');
 var express = require('express');
 var path = require('path');
-var logger = require('morgan');
+const expressValidator = require('express-validator');
 var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const expressValidator = require('express-validator');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 
 var app = express();
 
+app.use(cookieParser()); // Add this after you initialize express.
+
 require('dotenv').config();
-app.use(logger('dev'));
-
-
-bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
-
-app.use(expressValidator());
-
-require('./data/marketing-db');
-require('./controllers/auth.js')(app);
-require('./controllers/index.js')(app);
-
-app.disable('etag');
 
 // view engine setup
+app.use(express.static(path.join(__dirname, "public")));
 app.engine('hbs', hbs({extname: 'hbs',
               defaultLayout: 'layout',
               layoutsDir: __dirname + '/views/layouts/',
               partialsDir: __dirname + '/views/partials/',
+              handlebars: allowInsecurePrototypeAccess(Handlebars)
               }));
 app.set('views', path.join(__dirname, 'views/layouts'));
 app.set('view engine', 'hbs')
-app.use(express.static(path.join(__dirname, "public")));
+
+require('./data/marketing-db');
+
+bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(expressValidator());
 
 
 var checkAuth = (req, res, next) => {
   console.log("Checking authentication");
-  var token = req.body.token || req.body.query || req.headers['x-access-token'];
-
-  if (typeof token === "undefined" || token === null) {
+  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
     req.user = null;
   } else {
-    var token = token;
+    var token = req.cookies.nToken;
     var decodedToken = jwt.decode(token, { complete: true }) || {};
     req.user = decodedToken.payload;
   }
@@ -51,6 +46,14 @@ var checkAuth = (req, res, next) => {
   next();
 };
 app.use(checkAuth);
+
+
+require('./controllers/index.js')(app);
+require('./controllers/auth.js')(app);
+require('./controllers/dashboard.js')(app);
+
+
+
 
 
 

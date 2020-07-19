@@ -6,7 +6,7 @@
             <div class="card">
 
             <h5 class="card-header info-color white-text text-center py-4">
-                <strong>Book {{offer}}</strong>
+                <strong>Booking {{offer.name}}</strong>
             </h5>
 
             <!--Card content-->
@@ -15,12 +15,12 @@
                     <img src="https://cdn4.buysellads.net/uu/1/65221/1591052948-DATADOG-Product.jpg" class="card-img-top" alt="...">
                 </div>
                 <!-- Form -->
-                <form class="text-center" style="color: #757575;" action="/booking/new" method="POST">
+                <form class="text-center" style="color: #757575;" action="/booking/new/{{offer._id}}" method="POST">
                 
                     <!-- Name -->
                     <div class="md-form">
                         <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" class="form-control">
+                        <input type="text" id="name" name="name" class="form-control" value="{{currentUser.username}}">
                     </div>
 
 
@@ -33,7 +33,7 @@
                     
                     <div class="md-form">
                         <label for="offer">Offer</label>
-                        <input type="text" name="offer" id="offer" class="form-control">
+                        <input type="text" name="offer" id="offer" class="form-control" value="{{offer.name}} ${{offer.price}}">
                 
                     </div>
 

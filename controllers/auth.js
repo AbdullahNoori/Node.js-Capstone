@@ -5,8 +5,13 @@ module.exports = (app) => {
     // SIGN UP FORM
 
     app.get("/sign-up", (req, res) => {
-        res.render('/sign-up');
+        res.render('sign-up');
     });
+
+    app.get("/login", (req, res) => {
+        res.render('login');
+    });
+
     // SIGN UP POST
     app.post("/sign-up", (req, res) => {
         // Create User and JWT
@@ -16,7 +21,11 @@ module.exports = (app) => {
             var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
             res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
             res.redirect('/');
-    });
+        })
+        .catch(err => {
+            console.log(err.message);
+            return res.status(400).send({ err: err });
+        });
   });
 
     // LOGOUT
@@ -25,11 +34,10 @@ module.exports = (app) => {
         res.redirect('/');
     });
 
-     // LOGIN
+    // LOGIN
     app.post("/login", (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
-        // const user = new User(req.body);
         // Find this user name
         User.findOne({ username }, "username password")
         .then(user => {
@@ -50,6 +58,7 @@ module.exports = (app) => {
 
             // Set a cookie and redirect to root
             res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
+            // res.json({token : token, expires: expires, user: user.toJSON()});
             res.redirect("/");
             });
         })

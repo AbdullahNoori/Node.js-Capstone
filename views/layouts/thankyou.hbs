@@ -8,14 +8,12 @@
     Having trouble? <a href="">Contact us</a>
   </p>
   <p class="lead">
-    <a class="btn btn-primary btn-sm" href="https://bootstrapcreative.com/" role="button">Continue to homepage</a>
+    {{#if currentUser }}
+      <a class="btn btn-primary btn-sm" href="/dashboard" role="button">Continue to Dashboard</a>
+    {{else}}
+      <a class="btn btn-primary btn-sm" href="/" role="button">Continue to home</a>
+    {{/if}}
   </p>
 </div>
     </div>
 </div>
-
-{{!-- {{#with bookoffer as | bookoffer |}} --}}
-{{bookoffer.name}}
-{{!-- {{/with}}
-
-{{bookoffer}} --}}
